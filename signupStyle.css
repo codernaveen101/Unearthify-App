@@ -8,10 +8,6 @@
     overflow-x: hidden;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 header {
     position: fixed;
     top: 0;
@@ -52,20 +48,20 @@ header {
     color: white;
 }
 
-#loginSign {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 5rem;
-    height: 100vh;
-    width: 100vw;
-}
-
 body {
     background: #FCFA84;
 }
 
-.login {
+#signUpSign {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+}
+
+.signup {
     align-items: center;
     justify-content: center;
     display: flex;
@@ -75,21 +71,21 @@ body {
     
 }
 
-.login h1{
+.signup h1{
     font-size: 3rem;
 }
 
-.login label{
+.signup label{
     font-size: 2rem;
 }
 
-.login input {
+.signup input {
     display: flex;
     font-size: 2rem;
     border-radius: 1rem;
 }
 
-.login button {
+.signup button {
     background: transparent;
     backdrop-filter: blur(20);
     border-radius: 1rem;

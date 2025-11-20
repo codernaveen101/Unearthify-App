@@ -8,7 +8,13 @@
 
     <link rel="stylesheet" href="loginStyle.css">
 
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
+    <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=loadWidget" defer></script> -->
+    
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script defer src="index.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="images/Unearthify-logo-circle.png">
 </head>
 
 <body>
@@ -26,12 +32,9 @@
             </a>
         </nav>
     </header>
-
+    <h1 id="loginSign">Log in</h1>
     <div class="login">
-        <h1>Log in</h1>
-
-        <br>
-        <br>
+        
 
         <form action="" enctype="application/x-www-form-urlencoded" method="POST">
             <label for="email">Email: </label>
@@ -40,16 +43,44 @@
             <label for="password">Password: </label>
             <input type="password" id="password" name="password" required>
             <br>
-            <div class="cf-turnstile" data-theme="light" data-sitekey="0x4AAAAAACAn1dXr-anJivny"></div>
+            <!-- <div class="cf-turnstile" data-theme="light" data-sitekey="0x4AAAAAACAn1dXr-anJivny"></div> -->
+            <div id="turnstile-container"></div>  
             <br>
-            <button type="submit">Submit</button>
+            <button type="submit">Log in</button>
         </form>
 
         <br>
-        <a href="password.html">
+        <a href="signup.html">
             <h3>Don't have an account? Sign up here.</h3>
         </a>
     </div>
+
+    <script>
+      window.onload = function () {
+        turnstile.render("#turnstile-container", {
+          sitekey: "0x4AAAAAACAn1dXr-anJivny",
+          callback: function (token) {
+            console.log("Turnstile token:", token);
+            // Handle successful verification
+          },
+          "error-callback": function (errorCode) {
+            console.error("Turnstile error:", errorCode);
+          },
+        });
+      };
+    </script>
+
+    <!-- <script>
+        function onTurnstileLoad() {
+            turnstile.render("#widget-container", {
+                sitekey: "0x4AAAAAACAn1dXr-anJivny",
+                theme: "light",
+                callback: function (token) {
+                console.log("Challenge completed:", token);
+            },
+        });
+        }
+    </script> -->
 
 
 </body>
