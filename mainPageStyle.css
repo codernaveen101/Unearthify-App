@@ -8,42 +8,49 @@
     font-family: poppins, sans-serif;
 }
 
+.navigation {
+    background-color: #FCFA84;
+    height: 100%;
+    width: 15vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+    
+    /* padding: 25vh 2vw; */
+}
 
-
-/* .tab {
-    overflow: hidden;
-    background: black;
-    color: white;
+.user {
     display: flex;
     flex-direction: column;
-    height: 25vh;
-    width: 3vw;
-    writing-mode: vertical-lr;
-    text-orientation: upright;
-    letter-spacing: -0.75vh;
-    justify-content: center;
     align-items: center;
-    text-align: center;
-    font-weight: 800;
+    justify-content: center;
+    padding: 2rem;
 }
 
-.tab button {
-    background-color: inherit;
-    color: inherit;
-    
-    
-    
-} */
-
-.tab {
-    overflow: hidden;
-    background: black;
-    color: white;
+ul {
+    list-style: none;
 }
 
-.tab button {
-    background-color: transparent;
-    float: left;
-    border: none;
+ul li {
+    display: flex;
+    padding-top: 4vh;
+}
+
+.navigation .buttons {
+    padding-top: 15vh;
+    padding-left: 2rem;    
+    text-decoration: none;
+}
+
+.navigation .buttons ul li {
+    cursor: pointer;
+}
+
+.navigation .logout {
+    padding-top: 20vh;
+    padding-left: 2rem;
+}
+
+.navigation .logout ul li {
     cursor: pointer;
 }
