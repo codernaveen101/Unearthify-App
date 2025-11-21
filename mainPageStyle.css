@@ -11,11 +11,17 @@
 .navigation {
     background-color: #FCFA84;
     height: 100%;
-    width: 15vw;
+    width: auto;
     top: 0;
     left: 0;
     position: fixed;
-    
+    /* padding-right: 1.5vw; */
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    transition: all 0.5s ease-in-out;
+
     /* padding: 25vh 2vw; */
 }
 
@@ -23,23 +29,46 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    justify-content: space-between;
+    padding-top: 2rem;
+    transition: all 0.5s ease-in-out;
 }
 
-ul {
+#blank {
+    font-size: xx-small;
+}
+
+.userother {
+    display: none;
+    transition: all 0.5s ease-in-out;
+}
+
+.user ul {
     list-style: none;
+
 }
 
 ul li {
+
     display: flex;
-    padding-top: 4vh;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+}
+
+ul li img {
+    padding-right: 2rem;
+}
+
+ul li p {
+    display: none;
+    transition: all 0.5s ease-in-out;
 }
 
 .navigation .buttons {
-    padding-top: 15vh;
-    padding-left: 2rem;    
+    padding-left: 2rem;
     text-decoration: none;
+    justify-content: space-between;
 }
 
 .navigation .buttons ul li {
@@ -47,10 +76,38 @@ ul li {
 }
 
 .navigation .logout {
-    padding-top: 20vh;
     padding-left: 2rem;
+    padding-bottom: 3vh;
 }
 
 .navigation .logout ul li {
     cursor: pointer;
+}
+
+
+
+.navigation:hover #blank {
+    display: none;
+}
+
+
+.navigation:hover {
+    padding-right: 1.5vw;
+}
+
+.navigation:hover .userother {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    transition: all 0.5s ease;
+}
+
+.navigation:hover ul li {
+    justify-content: flex-start;
+}
+
+.navigation:hover ul li p {
+    display: flex;
 }
