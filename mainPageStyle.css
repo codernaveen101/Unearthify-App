@@ -6,6 +6,11 @@
     box-sizing: border-box;
     padding: 0;
     font-family: poppins, sans-serif;
+    
+}
+
+body {
+    /* background-color: ghostwhite; */
 }
 
 .navigation {
@@ -20,7 +25,7 @@
     justify-content: space-between;
     flex-direction: column;
 
-    transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease;
 
     /* padding: 25vh 2vw; */
 }
@@ -53,7 +58,7 @@ ul li {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 ul li img {
@@ -62,7 +67,7 @@ ul li img {
 
 ul li p {
     display: none;
-    transition: all 0.5s ease-in-out;
+    /* transition: all 0.5s ease-in-out; */
 }
 
 .navigation .buttons {
@@ -84,7 +89,51 @@ ul li p {
     cursor: pointer;
 }
 
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+}
 
+.homeBox {
+    display: flex;
+    
+}
+
+#Home h2 {
+    font-size: 3rem;
+}
+
+#box1 {
+    padding-right: 1rem;
+    padding-top: 1rem;
+}
+
+#box2 {
+    padding-right: 1rem;
+    padding-top: 1rem;
+}
+
+#box3 {
+    padding-top: 1rem;
+}
+
+#Home p {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+#Home h3 {
+    padding: 2rem;
+    background-color: #FCFA84;
+    text-align: center;
+    border-radius: 2rem;
+    font-weight: 400;
+}
 
 .navigation:hover #blank {
     display: none;
@@ -111,3 +160,28 @@ ul li p {
 .navigation:hover ul li p {
     display: flex;
 }
+
+ul li button.active {
+    font-weight: 800;
+}
+
+ul li img.active {
+    background-color: black;
+}
+
+
+ul li:hover {
+    transform: scale(1.1);
+}
+
+
+
+button {
+    text-decoration: none;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size:1rem;
+    padding-right: 1vw;
+}
+

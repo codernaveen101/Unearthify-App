@@ -12,7 +12,7 @@
 <body>
     <div class="navigation">
         <div class="user">
-            <h6 id="blank"> </h6>
+            <!-- <h6 id="blank"></h6> -->
             <div class="userother">
                 <h2>John Name</h2>
                 <p>example@gmail.com</p>
@@ -21,24 +21,30 @@
         </div>
         <div class="buttons">
             <ul>
-                <li><img src="images/home.png" alt="Home sign">
-                    <p>Home</p>
+                <li>
+                    <img src="images/home.png" class="tabs"  alt="Home sign">
+                    <button class="tabs" onclick="openPage(event, 'Home')" id="default"><p>Home</p></button>             
                 </li>
                 <br>
-                <li><img src="images/search.png" alt="Search sign">
-                    <p>Search</p>
+                <li>
+                    <img src="images/search.png" class="tabs" alt="Search sign">
+                    
+                    <button class="tabs" onclick="openPage(event, 'Search')"><p>Search</p></button>
                 </li>
                 <br>
-                <li><img src="images/AI.png" alt="AI sign">
-                    <p>Colossus</p>
+                <li><img src="images/AI.png" class="tabs" alt="AI sign">
+
+                    <button class="tabs" onclick="openPage(event, 'Colossus')"><p>Colossus</p></button>
+                    
                 </li>
                 <br>
-                <li><img src="images/favorite.png" alt="Favorite sign">
-                    <p>Favorites</p>
+                <li><img src="images/favorite.png" class="tabs" alt="Favorite sign">
+                    <button class="tabs" onclick="openPage(event, 'Favorites')"><p>Favorites</p></button>
+                    
                 </li>
                 <br>
-                <li><img src="images/sell.png" alt="Coupon sign">
-                    <p>Coupons & Deals</p>
+                <li><img src="images/sell.png" class="tabs"  alt="Coupon sign">
+                    <button class="tabs" onclick="openPage(event, 'Coupons')"><p>Coupons & Deals</p></button>
                 </li>
             </ul>
         </div>
@@ -50,30 +56,73 @@
             </ul>
         </div>
 
+        
+
     </div>
+    <div class="info">
+        <div id="Home" class="tabInfo">
+            <h2>Welcome, John Name!</h2>
+            <p>What would you like to do today?</p>
+            <br>
+            <div class="homeBox">
+                <div id="box1">
+                    <h3>Ask Colossus</h3>
+                </div>
+                <br>
+                <div id="box2">
+                    <h3>Your favorites</h3>
+                </div>
+                <br>
+                <div id="box2">
+                    <h3>Find coupons</h3>
+                </div>
+            </div>
+            
+        </div>
+        <div id="Search" class="tabInfo">
+            <h2>Search here:</h2>
+            <p>____________</p>
+        </div>
+        <div id="Colossus" class="tabInfo">
+            <h2>Have a question?</h2>
+            <p>_________________</p>
+        </div>
+        <div id="Favorites" class="tabInfo">
+            <h2>Your favorites:</h2>
+            <p>________</p>
+        </div>
+        <div id="Coupons" class="tabInfo">
+            <h2>The best deals ever!</h2>
+            <p>100% off</p>
+            </div>
+    </div>
+    
+    
+    <script>
+        document.getElementById("default").click();
 
-    <!-- <button class="tab">Your Favorites</button>
-    <button class="tab">Companion</button>
-    <button class="tab">Search</button>
-    <button class="tab">Rankings</button>
+        function openPage(evt, tabName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+            var icAct;
 
-    <section id="yourFavorites" class="tabInfo">
-        <h1>Your favorites</h1>
-        <p>See your favorites here</p>
-    </section>
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabInfo");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
 
-    <section id="yourCompanion" class="tabInfo">
-        <h1>Companion</h1>
-        <p>What can do for you today?</p>
-    </section>
-    <section id="yourSearch" class="tabInfo">
-        <h1>Search</h1>
-        <p>Find a gem</p>
-    </section>
-    <section id="yourRankings" class="tabInfo">
-        <h1>Rankings</h1>
-        <p>Top small businesses</p>
-    </section> -->
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tabs");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+            }
+    </script>
 </body>
 
 </html>
