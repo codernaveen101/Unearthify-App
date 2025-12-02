@@ -6,7 +6,7 @@
     box-sizing: border-box;
     padding: 0;
     font-family: poppins, sans-serif;
-    
+
 }
 
 body {
@@ -62,7 +62,7 @@ ul li {
 }
 
 ul li img {
-    padding-right: 2rem;
+    padding-right: 1rem;
 }
 
 ul li p {
@@ -101,7 +101,7 @@ ul li p {
 
 .homeBox {
     display: flex;
-    
+
 }
 
 #Home h2 {
@@ -125,6 +125,50 @@ ul li p {
 #Home p {
     text-align: center;
     font-size: 1.5rem;
+}
+
+#answer {
+    text-align: justify;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
+    margin-left: 20vw;
+    margin-right: 20vw;
+    padding: 1rem;
+    border: 2px solid black;
+    background-color: #FCFA84;
+    border-radius: 2rem;
+}
+
+#Colossus h2 {
+    font-size: 3rem;
+}
+
+#Colossus form {
+    display: flex;
+    flex-direction: column;
+}
+
+#Colossus input {
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    margin-right: 30vw;
+    margin-left: 30vw;
+    text-align: center;
+    background-color: #FCFA84;
+    margin-top: 2vh;
+}
+
+#Colossus button {
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    margin-top: 2vh;
+    margin-right: 40vw;
+    margin-left: 40vw;
+    background-color: #FCFA84;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 #Home h3 {
@@ -181,7 +225,6 @@ button {
     background-color: transparent;
     border: 0;
     cursor: pointer;
-    font-size:1rem;
+    font-size: 1rem;
     padding-right: 1vw;
 }
-

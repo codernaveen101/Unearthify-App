@@ -22,29 +22,39 @@
         <div class="buttons">
             <ul>
                 <li>
-                    <img src="images/home.png" class="tabs"  alt="Home sign">
-                    <button class="tabs" onclick="openPage(event, 'Home')" id="default"><p>Home</p></button>             
+                    <img src="images/home.png" class="tabs" alt="Home sign">
+                    <button class="tabs" onclick="openPage(event, 'Home')" id="default">
+                        <p>Home</p>
+                    </button>
                 </li>
                 <br>
                 <li>
                     <img src="images/search.png" class="tabs" alt="Search sign">
-                    
-                    <button class="tabs" onclick="openPage(event, 'Search')"><p>Search</p></button>
+
+                    <button class="tabs" onclick="openPage(event, 'Search')">
+                        <p>Search</p>
+                    </button>
                 </li>
                 <br>
                 <li><img src="images/AI.png" class="tabs" alt="AI sign">
 
-                    <button class="tabs" onclick="openPage(event, 'Colossus')"><p>Colossus</p></button>
-                    
+                    <button class="tabs" onclick="openPage(event, 'Colossus')">
+                        <p>Colossus</p>
+                    </button>
+
                 </li>
                 <br>
                 <li><img src="images/favorite.png" class="tabs" alt="Favorite sign">
-                    <button class="tabs" onclick="openPage(event, 'Favorites')"><p>Favorites</p></button>
-                    
+                    <button class="tabs" onclick="openPage(event, 'Favorites')">
+                        <p>Favorites</p>
+                    </button>
+
                 </li>
                 <br>
-                <li><img src="images/sell.png" class="tabs"  alt="Coupon sign">
-                    <button class="tabs" onclick="openPage(event, 'Coupons')"><p>Coupons & Deals</p></button>
+                <li><img src="images/sell.png" class="tabs" alt="Coupon sign">
+                    <button class="tabs" onclick="openPage(event, 'Coupons')">
+                        <p>Coupons & Deals</p>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -56,7 +66,7 @@
             </ul>
         </div>
 
-        
+
 
     </div>
     <div class="info">
@@ -77,15 +87,21 @@
                     <h3>Find coupons</h3>
                 </div>
             </div>
-            
+
         </div>
         <div id="Search" class="tabInfo">
             <h2>Search here:</h2>
             <p>____________</p>
         </div>
         <div id="Colossus" class="tabInfo">
-            <h2>Have a question?</h2>
-            <p>_________________</p>
+            <h2>What would you like to know?</h2>
+            <form action="">
+
+                <input type="text" id="chatInput" name="chatInput" placeholder="Ask here..." required>
+                <button type="button"
+                    onclick="chat(document.getElementById('chatInput').value); openPage(event, 'Colossus')">Ask!</button>
+            </form>
+            <p id="answer"></p>
         </div>
         <div id="Favorites" class="tabInfo">
             <h2>Your favorites:</h2>
@@ -94,10 +110,10 @@
         <div id="Coupons" class="tabInfo">
             <h2>The best deals ever!</h2>
             <p>100% off</p>
-            </div>
+        </div>
     </div>
-    
-    
+
+
     <script>
         document.getElementById("default").click();
 
@@ -121,7 +137,26 @@
             // Show the current tab, and add an "active" class to the button that opened the tab
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
-            }
+        }
+    </script>
+
+    <script>
+        async function chat(inputFromElement) {
+            document.getElementById("answer").innerHTML = "Thinking...";
+            const response = await fetch("http://localhost:3000/ask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ input: inputFromElement })
+            });
+
+            const data = await response.json();
+
+            document.getElementById("answer").innerHTML =
+                data.answer || data.error || "No response";
+        }
+
     </script>
 </body>
 
