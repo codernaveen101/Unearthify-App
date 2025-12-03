@@ -138,6 +138,7 @@ ul li p {
     border: 2px solid black;
     background-color: #FCFA84;
     border-radius: 2rem;
+    white-space: pre-wrap;
 }
 
 #Colossus h2 {
