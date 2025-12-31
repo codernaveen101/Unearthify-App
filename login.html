@@ -10,7 +10,7 @@
 
     <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
     <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=loadWidget" defer></script> -->
-    
+
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     <script defer src="index.js"></script>
 
@@ -34,9 +34,9 @@
     </header>
     <h1 id="loginSign">Log in</h1>
     <div class="login">
-        
 
-        <form action="" enctype="application/x-www-form-urlencoded" method="POST">
+
+        <form id="loginForm">
             <label for="email">Email: </label>
             <input type="email" id="email" name="email" required>
             <br>
@@ -44,11 +44,11 @@
             <input type="password" id="password" name="password" required>
             <br>
             <!-- <div class="cf-turnstile" data-theme="light" data-sitekey="0x4AAAAAACAn1dXr-anJivny"></div> -->
-            <div id="turnstile-container"></div>  
+            <div id="turnstile-container"></div>
             <br>
             <button type="submit">Log in</button>
         </form>
-
+        <div id="response"></div>
         <br>
         <a href="signup.html">
             <h3>Don't have an account? Sign up here.</h3>
@@ -56,18 +56,50 @@
     </div>
 
     <script>
-      window.onload = function () {
-        turnstile.render("#turnstile-container", {
-          sitekey: "0x4AAAAAACAn1dXr-anJivny",
-          callback: function (token) {
-            console.log("Turnstile token:", token);
-            // Handle successful verification
-          },
-          "error-callback": function (errorCode) {
-            console.error("Turnstile error:", errorCode);
-          },
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('http://localhost:3000/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("firstName", result.user.firstName);
+                    localStorage.setItem("lastName", result.user.lastName);
+                    localStorage.setItem("email", data.email);
+                    window.location.href = "/mainPage.html";
+                }
+                else {
+                    document.getElementById("response").innerText = "Error: " + result.error;
+                }
+            }
+            catch (err) {
+                document.getElementById("response").innerText = "Could not connect to server";
+            }
         });
-      };
+    </script>
+
+    <script>
+        window.onload = function () {
+            turnstile.render("#turnstile-container", {
+                sitekey: "0x4AAAAAACAn1dXr-anJivny",
+                callback: function (token) {
+                    console.log("Turnstile token:", token);
+                    // Handle successful verification
+                },
+                "error-callback": function (errorCode) {
+                    console.error("Turnstile error:", errorCode);
+                },
+            });
+        };
     </script>
 
     <!-- <script>

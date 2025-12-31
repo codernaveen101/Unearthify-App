@@ -92,16 +92,20 @@ ul li p {
 .info {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center;
+    justify-content: flex-start; */
     text-align: center;
     height: 100vh;
-    width: 100vw;
+    width: calc(100vw - 80px);
+    margin-left: 80px;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 
 .homeBox {
     display: flex;
-
+    justify-content: center;
+    align-items: center;
 }
 
 #Home h2 {
@@ -139,6 +143,9 @@ ul li p {
     background-color: #FCFA84;
     border-radius: 2rem;
     white-space: pre-wrap;
+
+    flex: 1;
+    overflow-y: auto;
 }
 
 #Colossus h2 {
@@ -148,6 +155,9 @@ ul li p {
 #Colossus form {
     display: flex;
     flex-direction: column;
+    margin-bottom: 0rem;
+    text-align: center;
+
 }
 
 #Colossus input {
@@ -161,15 +171,58 @@ ul li p {
 }
 
 #Colossus button {
+
     font-size: 1.5rem;
     border-radius: 1rem;
     margin-top: 2vh;
     margin-right: 40vw;
     margin-left: 40vw;
+    padding: 10px;
     background-color: #FCFA84;
     text-align: center;
     align-items: center;
     justify-content: center;
+}
+
+#Search {
+    padding-top: 2vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#Search h2 {
+    font-size: 3rem;
+}
+
+#Search input {
+    background-color: #FCFA84;
+    border-radius: 2rem;
+    /* margin-left: 80px; */
+    width: 75vw;
+    height: 6vh;
+    text-align: left;
+    margin-right: 1vw;
+    border: 0;
+    margin-top: 1vh;
+    padding-left: 1vw;
+    align-items: center;
+}
+
+#Search button {
+    background-color: #FCFA84;
+    border-radius: 2rem;
+    height: 6vh;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+#Home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
 }
 
 #Home h3 {
@@ -179,6 +232,7 @@ ul li p {
     border-radius: 2rem;
     font-weight: 400;
 }
+
 
 .navigation:hover #blank {
     display: none;
@@ -227,5 +281,9 @@ button {
     border: 0;
     cursor: pointer;
     font-size: 1rem;
+    /* padding-right: 1vw; */
+}
+
+.tabs {
     padding-right: 1vw;
 }

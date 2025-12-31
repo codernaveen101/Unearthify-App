@@ -14,8 +14,8 @@
         <div class="user">
             <!-- <h6 id="blank"></h6> -->
             <div class="userother">
-                <h2>John Name</h2>
-                <p>example@gmail.com</p>
+                <h2 id="side-name">John Name</h2>
+                <p id="side-email">example@gmail.com</p>
             </div>
 
         </div>
@@ -61,7 +61,7 @@
         <div class="logout">
             <ul>
                 <li><img src="images/logout.png" alt="Logout">
-                    <p>Log out</p>
+                    <p id="logout">Log out</p>
                 </li>
             </ul>
         </div>
@@ -71,7 +71,7 @@
     </div>
     <div class="info">
         <div id="Home" class="tabInfo">
-            <h2>Welcome, John Name!</h2>
+            <h2 id="greet"></h2>
             <p>What would you like to do today?</p>
             <br>
             <div class="homeBox">
@@ -90,18 +90,22 @@
 
         </div>
         <div id="Search" class="tabInfo">
-            <h2>Search here:</h2>
-            <p>____________</p>
+            <h2>Search</h2>
+            <form>
+                <input type="text" id="userSearch" name="userSearch" placeholder="Search here..." required>
+                <button type="submit">Search!</button>
+            </form>
         </div>
         <div id="Colossus" class="tabInfo">
             <h2>What would you like to know?</h2>
+            <p id="answer"></p>
             <form action="">
 
                 <input type="text" id="chatInput" name="chatInput" placeholder="Ask here..." required>
                 <button type="button"
                     onclick="chat(document.getElementById('chatInput').value); openPage(event, 'Colossus')">Ask!</button>
             </form>
-            <p id="answer"></p>
+
         </div>
         <div id="Favorites" class="tabInfo">
             <h2>Your favorites:</h2>
@@ -135,7 +139,7 @@
             }
 
             // Show the current tab, and add an "active" class to the button that opened the tab
-            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).style.display = "flex";
             evt.currentTarget.className += " active";
         }
     </script>
@@ -157,6 +161,22 @@
                 data.answer || data.error || "No response";
         }
 
+    </script>
+
+    <script>
+        const fName = localStorage.getItem("firstName");
+        const lName = localStorage.getItem("lastName");
+        const email = localStorage.getItem("email");
+
+        document.getElementById("greet").innerText = "Welcome, " + fName + " " + lName + "!";
+        document.getElementById("side-name").innerText = fName + " " + lName;
+        document.getElementById("side-email").innerText = email;
+
+        document.getElementById("logout").addEventListener("click", () => {
+            localStorage.clear();
+
+            window.location.href = "index.html";
+        });
     </script>
 </body>
 
