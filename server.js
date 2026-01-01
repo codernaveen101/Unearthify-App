@@ -2,20 +2,33 @@ import express from "express";
 import cors from "cors";
 import OpenAI from "openai";
 import 'dotenv/config';
+import path from "path";                    // <--- Added this
+import { fileURLToPath } from "url";        // <--- Added this for ES Modules
+
+// Needed to recreate __dirname in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Import your routes
-// Note: When using "import", you often need the .js extension
 import signupRoute from './signup.js';
-// import loginRoute from './routes/login.js'; 
 import loginRoute from './login.js';
 
 const app = express();
-const port = 3000;
+// Use Render's port or default to 3000
+const port = process.env.PORT || 3000;
 
 // MIDDLEWARE
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // Serves your HTML files
+
+// SERVING STATIC FILES
+// This tells Express to serve your index.html and CSS from the current folder
+app.use(express.static(path.join(__dirname, './')));
+
+// This handles the "Root" URL (the link Render gives you)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // 1. OPENAI LOGIC
 const client = new OpenAI({
@@ -25,7 +38,6 @@ const client = new OpenAI({
 app.post("/ask", async (req, res) => {
     try {
         const userInput = req.body.input;
-        // Note: Check your OpenAI model name. Usually it is "gpt-4o" or "gpt-3.5-turbo"
         const response = await client.chat.completions.create({
             model: "gpt-4o",
             messages: [{ role: "user", content: userInput }]
@@ -42,13 +54,10 @@ app.post("/ask", async (req, res) => {
 
 // 2. AUTH ROUTES (Signup/Login)
 app.use('/auth', signupRoute);
-
-//login route
 app.use('/auth', loginRoute);
-
 
 // START SERVER
 app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on port ${port}`);
     console.log(`Ready for AI chats and Signups!`);
 });
