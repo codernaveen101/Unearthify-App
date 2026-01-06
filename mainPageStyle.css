@@ -9,9 +9,6 @@
 
 }
 
-body {
-    /* background-color: ghostwhite; */
-}
 
 .navigation {
     background-color: #FCFA84;
@@ -92,14 +89,14 @@ ul li p {
 .info {
     display: flex;
     flex-direction: column;
-    /* align-items: center;
-    justify-content: flex-start; */
     text-align: center;
-    height: 100vh;
-    width: calc(100vw - 80px);
+    min-height: 100vh;
+    /* width: calc(100vw - 80px); */
+    flex: 1;
     margin-left: 80px;
     padding-left: 5rem;
     padding-right: 5rem;
+    overflow-x: hidden;
 }
 
 .homeBox {
@@ -108,7 +105,7 @@ ul li p {
     align-items: center;
 }
 
-#Home h2 {
+.mainPopup h2 {
     font-size: 3rem;
 }
 
@@ -126,62 +123,115 @@ ul li p {
     padding-top: 1rem;
 }
 
-#Home p {
+.mainPopup p {
     text-align: center;
     font-size: 1.5rem;
 }
 
-#answer {
-    text-align: justify;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5vh;
-    margin-left: 20vw;
-    margin-right: 20vw;
-    padding: 1rem;
-    border: 2px solid black;
-    background-color: #FCFA84;
-    border-radius: 2rem;
-    white-space: pre-wrap;
+.randomPlacesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    width: 100%;
+}
 
-    flex: 1;
-    overflow-y: auto;
+.randomPicks {
+    padding-top: 4vh;
+    overflow-x: hidden;
+    width: 100%;
+    justify-content: flex-start;
+
+}
+
+.randomPicks h4 {
+    text-align: left;
+    font-size: 2rem;
 }
 
 #Colossus h2 {
-    font-size: 3rem;
+    padding-top: 2vh;
+    font-size: 5vh;
 }
 
-#Colossus form {
+.colossus-response,
+.colossus-response * {
+    all: revert;
+    box-sizing: border-box;
+}
+
+.colossus-response {
+    text-align: left;
+    display: block;
+    width: 100%;
+    padding: 1.5rem;
+    font-family: poppins;
+    line-height: 1.5;
+}
+
+.colossus-response table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.colossus-response th,
+.colossus-response td {
+    border: 1px solid #9e9d9d;
+    padding: 0.5rem;
+}
+
+#Colossus {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#answer {
+    flex: 1;
+    width: 90vw;
+    /* background-color: #f8f4f4; */
+    overflow-y: auto;
+    text-align: left;
+    /* border-radius: 3rem; */
+}
+
+.colossus-area {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 0rem;
-    text-align: center;
-
-}
-
-#Colossus input {
-    font-size: 1.5rem;
-    border-radius: 1rem;
-    margin-right: 30vw;
-    margin-left: 30vw;
-    text-align: center;
-    background-color: #FCFA84;
-    margin-top: 2vh;
-}
-
-#Colossus button {
-
-    font-size: 1.5rem;
-    border-radius: 1rem;
-    margin-top: 2vh;
-    margin-right: 40vw;
-    margin-left: 40vw;
-    padding: 10px;
-    background-color: #FCFA84;
-    text-align: center;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.type-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: auto;
+
+}
+
+.type-area input {
+    background-color: #FCFA84;
+    border-radius: 2rem;
+    font-size: 2rem;
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+    border: none;
+    width: 40%;
+}
+
+.type-area button {
+    background-color: #FCFA84;
+    font-size: 2rem;
+    border-radius: 2rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
 }
 
 #Search {
@@ -189,20 +239,34 @@ ul li p {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+
+
 }
 
 #Search h2 {
     font-size: 3rem;
 }
 
+#Search select {
+    background-color: #FCFA84;
+    border-radius: 2rem;
+    /* margin-left: 80px; */
+    height: 6vh;
+    text-align: center;
+    margin-right: 0.25vw;
+    border: 0;
+    margin-top: 1vh;
+    align-items: center;
+}
+
 #Search input {
     background-color: #FCFA84;
     border-radius: 2rem;
     /* margin-left: 80px; */
-    width: 75vw;
+    width: 70vw;
     height: 6vh;
     text-align: left;
-    margin-right: 1vw;
+    margin-right: 0.25vw;
     border: 0;
     margin-top: 1vh;
     padding-left: 1vw;
@@ -217,15 +281,88 @@ ul li p {
     padding-right: 1rem;
 }
 
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.recommendation {
+    background-color: #FCFA84;
+    border-radius: 2rem;
+    padding: 2rem;
+    border: 1px solid #9e9d9d;
+    text-align: left;
+    flex: 0 1 calc(33.33% - 14px);
+    line-height: 2.5;
+    min-width: 250px;
+}
+
+.recommendation h4 {
+    display: flex;
+    text-align: center;
+    font-size: 1.2rem;
+    justify-content: space-between;
+}
+
+.recommendation h4 svg {
+    width: 2vw;
+    height: auto;
+    min-width: 18px;
+    max-width: 30px;
+    cursor: pointer;
+}
+
+.heart-icon {
+    fill: black;
+    transition: fill 0.3s ease;
+}
+
+.heart-icon.is-active {
+    fill: red !important;
+}
+
+#Favorites {
+    padding-top: 2vh;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.favoritesPopup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.favorites-container h2 {
+    font-size: 3rem;
+}
+
 #Home {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: hidden;
+
+}
+
+.mainPopup {
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 1;
+    width: 100%;
 }
 
-#Home h3 {
+.mainPopup h3 {
     padding: 2rem;
     background-color: #FCFA84;
     text-align: center;
@@ -260,16 +397,16 @@ ul li p {
     display: flex;
 }
 
-ul li button.active {
+.buttons ul li button.active {
     font-weight: 800;
 }
 
-ul li img.active {
+.buttons ul li img.active {
     background-color: black;
 }
 
 
-ul li:hover {
+.buttons ul li:hover {
     transform: scale(1.1);
 }
 

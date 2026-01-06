@@ -12,5 +12,17 @@ model User {
   lastName  String
   email     String   @unique
   password  String
+
+  favorites Favorite[]
   createdAt DateTime @default(now())
+}
+
+model Favorite {
+  id Int @id @default(autoincrement())
+  userId Int
+  businessId Int
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, businessId])
 }

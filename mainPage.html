@@ -7,6 +7,8 @@
     <title>Home</title>
     <link rel="stylesheet" href="mainPageStyle.css">
     <link rel="icon" type="image/x-icon" href="images/Unearthify-logo-circle.png">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 </head>
 
 <body>
@@ -71,20 +73,36 @@
     </div>
     <div class="info">
         <div id="Home" class="tabInfo">
-            <h2 id="greet"></h2>
-            <p>What would you like to do today?</p>
-            <br>
-            <div class="homeBox">
-                <div id="box1">
-                    <h3>Ask Colossus</h3>
-                </div>
+            <div class="mainPopup">
+                <h2 id="greet"></h2>
+                <p>What would you like to do today?</p>
                 <br>
-                <div id="box2">
-                    <h3>Your favorites</h3>
+                <div class="homeBox">
+                    <div id="box1">
+                        <h3>Ask Colossus</h3>
+                    </div>
+                    <br>
+                    <div id="box2">
+                        <h3>Your favorites</h3>
+                    </div>
+                    <br>
+                    <div id="box2">
+                        <h3>Find coupons</h3>
+                    </div>
                 </div>
-                <br>
-                <div id="box2">
-                    <h3>Find coupons</h3>
+            </div>
+
+            <div class="randomPicks">
+                <h4>Random Business Choices</h4>
+                <div class="randomPlacesContainer">
+                </div>
+
+            </div>
+
+            <div class="randomPicks">
+                <h4>Top Rated Businesses</h4>
+                <div class="topRated">
+
                 </div>
             </div>
 
@@ -93,23 +111,45 @@
             <h2>Search</h2>
             <form>
                 <input type="text" id="userSearch" name="userSearch" placeholder="Search here..." required>
-                <button type="submit">Search!</button>
+                <select name="selections" id="selections">
+                    <option value="name">Name</option>
+                    <option value="category">Category</option>
+                    <option value="state">State</option>
+                </select>
+                <button type="submit" onclick="searchResults(event)">Search!</button>
             </form>
+            <div class="results">
+                <!-- <div class="recommendation">
+                    <h4>Name <img src="images/favorite-black.svg" alt="image-of-favorite"></h4>
+                    <p>Category</p>
+                    <p>5 stars</p>
+                    <p>Location</p>
+                </div> -->
+            </div>
+
         </div>
         <div id="Colossus" class="tabInfo">
-            <h2>What would you like to know?</h2>
-            <p id="answer"></p>
-            <form action="">
+            <div class="colossus-area">
+                <h2>What would you like to learn?</h2>
+                <div id="answer" class="colossus-response"></div>
+                <div class="type-area">
+                    <form action="">
 
-                <input type="text" id="chatInput" name="chatInput" placeholder="Ask here..." required>
-                <button type="button"
-                    onclick="chat(document.getElementById('chatInput').value); openPage(event, 'Colossus')">Ask!</button>
-            </form>
+                        <input type="text" id="chatInput" name="chatInput" required>
+                        <button type="submit"
+                            onclick="chat(event, document.getElementById('chatInput').value)">></button>
+                    </form>
+                </div>
 
+            </div>
         </div>
         <div id="Favorites" class="tabInfo">
-            <h2>Your favorites:</h2>
-            <p>________</p>
+            <div class="favorites-container">
+                <h2>Favorites</h2>
+                <div class="favoritesPopup">
+
+                </div>
+            </div>
         </div>
         <div id="Coupons" class="tabInfo">
             <h2>The best deals ever!</h2>
@@ -117,6 +157,249 @@
         </div>
     </div>
 
+    <script>
+        let userFavorites = [];
+
+        async function loadUserFavorites() {
+            const userId = localStorage.getItem("userId");
+            if (!userId) return;
+            try {
+                const response = await fetch(`http://localhost:3000/api/favorites/${userId}`);
+                if (response.ok) {
+                    userFavorites = await response.json();
+                }
+            } catch (error) {
+                console.error("Could not load favorites:", error);
+                userFavorites = [];
+            }
+        }
+    </script>
+
+
+    <script>
+        async function randomPlacePicker() {
+            const status = await fetch("new_db.json");
+            const data = await status.json();
+
+            const divClass = document.getElementsByClassName("randomPlacesContainer")[0];
+            divClass.innerHTML = "";
+
+            const fullList = data.rows;
+
+
+
+
+            for (var i = 0; i < 3; i++) {
+                const randomNumber = Math.floor(Math.random() * fullList.length);
+                const randomBusiness = fullList[randomNumber];
+                const name = randomBusiness[0];
+                const all_categories = randomBusiness[5];
+                const stars = randomBusiness[3];
+                const address = randomBusiness[1];
+                const state = randomBusiness[2];
+
+                let activeClass = "";
+                if (userFavorites.includes(randomNumber)) {
+                    activeClass = "is-active";
+                }
+
+                const newDiv = document.createElement("div");
+                newDiv.className = "recommendation";
+
+                newDiv.innerHTML = `<h4>${name} <svg xmlns="http://www.w3.org/2000/svg" height="24px" id="heart-${randomNumber}" class="heart-icon ${activeClass}" onclick="toggleFavorite(${randomNumber})" viewBox="0 -960 960 960" width="24px"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg></h4>
+                                        <p><strong>Categories: </strong>${all_categories}</p>
+                                        <p><strong>Stars: </strong>${stars}</p>
+                                        <p><strong>Location: </strong>${address}, ${state}</p>`;
+
+                divClass.appendChild(newDiv);
+
+            }
+        }
+    </script>
+
+    <script>
+        async function initialize() {
+            await loadUserFavorites();
+
+            await randomPlacePicker();
+        }
+
+        initialize();
+    </script>
+
+    <script>
+        async function favoritesShowcase() {
+            const status = await fetch("new_db.json");
+            const data = await status.json();
+
+            const divClass = document.getElementsByClassName("favoritesPopup")[0];
+            divClass.innerHTML = "";
+
+            if (userFavorites.length === 0) {
+                divClass.innerHTML = "<p>You haven't added any favorites yet!</p>";
+                return;
+            }
+
+            userFavorites.forEach(businessId => {
+                const business = data.rows[businessId];
+                if (!business) return;
+
+                const name = business[0];
+                const all_categories = business[5];
+                const stars = business[3];
+                const address = business[1];
+                const state = business[2];
+
+                const newDiv = document.createElement("div");
+                newDiv.className = "recommendation";
+                newDiv.innerHTML = `
+            <h4>${name} 
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" id="heart-${businessId}" 
+                    class="heart-icon is-active" onclick="toggleFavorite(${businessId})" 
+                    viewBox="0 -960 960 960" width="24px">
+                    <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
+                </svg>
+            </h4>
+            <p><strong>Categories: </strong>${all_categories}</p>
+            <p><strong>Stars: </strong>${stars}</p>
+            <p><strong>Location: </strong>${address}, ${state}</p>`;
+
+                divClass.appendChild(newDiv);
+            });
+        }
+
+    </script>
+
+    <script>
+        async function searchResults(event) {
+            event.preventDefault();
+
+            const query = document.getElementById("userSearch").value.trim();
+            const sortBy = document.getElementById("selections").value;
+
+            const divClass = document.getElementsByClassName("results")[0];
+            if (query == "") {
+                document.getElementsByClassName("results")[0].innerHTML = "";
+                divClass.innerHTML = 'No results';
+                return;
+            }
+
+            const status = await fetch("new_db.json");
+            const data = await status.json();
+            var count = 0;
+
+
+            divClass.innerHTML = "";
+
+            for (var i = 0; i < data.rows.length; i++) {
+                const currentRow = data.rows[i];
+                const name = currentRow[0];
+                const all_categories = currentRow[5];
+                const stars = currentRow[3];
+                const address = currentRow[1];
+                const state = currentRow[2];
+
+                let isFav = userFavorites.includes(i);
+                let activeClass = "";
+                if (isFav) {
+                    activeClass = "is-active";
+                }
+
+                if (sortBy == "name") {
+                    if (name.toLowerCase().includes(query.toLowerCase())) {
+                        count++;
+                        const newDiv = document.createElement("div");
+                        newDiv.className = "recommendation";
+
+                        newDiv.innerHTML = `<h4>${name} <svg xmlns="http://www.w3.org/2000/svg" height="24px" id="heart-${i}" class="heart-icon ${activeClass}" onclick="toggleFavorite(${i})" viewBox="0 -960 960 960" width="24px"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg></h4>
+                                        <p><strong>Categories: </strong>${all_categories}</p>
+                                        <p><strong>Stars: </strong>${stars}</p>
+                                        <p><strong>Location: </strong>${address}, ${state}</p>`;
+
+                        divClass.appendChild(newDiv);
+                    }
+                }
+                else if (sortBy == "category") {
+                    if (all_categories.toLowerCase().includes(query.toLowerCase())) {
+                        count++;
+                        const newDiv = document.createElement("div");
+                        newDiv.className = "recommendation";
+
+                        newDiv.innerHTML = `<h4>${name} <svg xmlns="http://www.w3.org/2000/svg" height="24px" id="heart-${i}" class="heart-icon ${activeClass}" onclick="toggleFavorite(${i})" viewBox="0 -960 960 960" width="24px"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg></h4>
+                                        <p><strong>Categories: </strong>${all_categories}</p>
+                                        <p><strong>Stars: </strong>${stars}</p>
+                                        <p><strong>Location: </strong>${address}, ${state}</p>`;
+
+                        divClass.appendChild(newDiv);
+                    }
+                }
+                else {
+                    if (state.toLowerCase().includes(query.toLowerCase())) {
+                        count++;
+                        const newDiv = document.createElement("div");
+                        newDiv.className = "recommendation";
+
+                        newDiv.innerHTML = `<h4>${name} <svg xmlns="http://www.w3.org/2000/svg" height="24px" id="heart-${i}" class="heart-icon ${activeClass}" onclick="toggleFavorite(${i})" viewBox="0 -960 960 960" width="24px"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg></h4>
+                                        <p><strong>Categories: </strong>${all_categories}</p>
+                                        <p><strong>Stars: </strong>${stars}</p>
+                                        <p><strong>Location: </strong>${address}, ${state}</p>`;
+
+                        divClass.appendChild(newDiv);
+                    }
+                }
+
+
+            }
+            if (count == 0) {
+                divClass.innerHTML = 'No results';
+            }
+        }
+
+    </script>
+
+    <script>
+        async function toggleFavorite(businessId) {
+            const hearts = document.querySelectorAll(`#heart-${businessId}`);
+            const userId = localStorage.getItem("userId");
+
+            hearts.forEach(heart => heart.classList.toggle("is-active"));
+
+            const isFavorited = hearts[0].classList.contains("is-active");
+            let action = "";
+
+            if (isFavorited) {
+                action = "/api/favorites/add";
+                if (!userFavorites.includes(businessId)) {
+                    userFavorites.push(businessId);
+                }
+            }
+            else {
+                action = "/api/favorites/remove";
+                userFavorites = userFavorites.filter(id => id !== businessId);
+            }
+
+            if (!userId) {
+                alert("You must be logged in to favorite items!");
+                return;
+            }
+            try {
+                const response = await fetch(`http://localhost:3000${action}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId, businessId })
+                });
+
+                if (!response.ok) {
+                    hearts.forEach(h => h.classList.toggle('is-active'));
+                    console.log("Failed to save");
+                }
+            }
+            catch (error) {
+                hearts.forEach(h => h.classList.toggle('is-active'));
+                console.log("Could not connect to server");
+            }
+        }
+    </script>
 
     <script>
         document.getElementById("default").click();
@@ -141,24 +424,45 @@
             // Show the current tab, and add an "active" class to the button that opened the tab
             document.getElementById(tabName).style.display = "flex";
             evt.currentTarget.className += " active";
+
+            if (tabName === 'Favorites') {
+                favoritesShowcase();
+            }
         }
     </script>
 
+
     <script>
-        async function chat(inputFromElement) {
-            document.getElementById("answer").innerHTML = "Thinking...";
-            const response = await fetch("http://localhost:3000/ask", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ input: inputFromElement })
-            });
+        async function chat(event, inputFromElement) {
+            event.preventDefault();
+            const answerPlace = document.getElementById("answer");
+            answerPlace.innerHTML = "Thinking...";
 
-            const data = await response.json();
+            try {
+                const response = await fetch("http://localhost:3000/ask", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ input: inputFromElement })
+                });
 
-            document.getElementById("answer").innerHTML =
-                data.answer || data.error || "No response";
+                const data = await response.json();
+
+                if (data.answer) {
+                    const dirtyHTML = marked.parse(data.answer);
+
+                    const cleanHTML = DOMPurify.sanitize(dirtyHTML);
+
+                    answerPlace.innerHTML = cleanHTML;
+                }
+                else {
+                    answerPlace.innerText = data.error || "No response from Colossus";
+                }
+            }
+            catch (error) {
+                answerPlace.innerText = "Could not connect to server";
+            }
         }
 
     </script>
@@ -168,9 +472,15 @@
         const lName = localStorage.getItem("lastName");
         const email = localStorage.getItem("email");
 
-        document.getElementById("greet").innerText = "Welcome, " + fName + " " + lName + "!";
-        document.getElementById("side-name").innerText = fName + " " + lName;
-        document.getElementById("side-email").innerText = email;
+        if (!fName || !lName) {
+            window.location.replace("login.html");
+        }
+        else {
+            document.getElementById("greet").innerText = "Welcome, " + fName + " " + lName + "!";
+            document.getElementById("side-name").innerText = fName + " " + lName;
+            document.getElementById("side-email").innerText = email;
+        }
+
 
         document.getElementById("logout").addEventListener("click", () => {
             localStorage.clear();

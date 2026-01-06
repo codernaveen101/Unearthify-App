@@ -1,13 +1,24 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import prisma from './db.js';
+import { validateTurnstile } from './validate.js';
 
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
+    const token = req.body['cf-turnstile-response'];
+    const ip = req.ip;
 
     try {
+        if (!token) {
+            return res.status(400).json({ error: "Please complete the security check." });
+        }
+        const turnstileResult = await validateTurnstile(token, ip);
+        if (!turnstileResult.success) {
+            return res.status(403).json({ error: "Bot detection failed. Try again." });
+        }
+
         // 1. Find user by email
         const user = await prisma.user.findUnique({
             where: { email: email }
@@ -23,7 +34,7 @@ router.post('/login', async (req, res) => {
 
         if (isMatch) {
             // SUCCESS: You would typically set up a session or JWT here
-            res.json({ message: "Login successful!", user: { firstName: user.firstName, lastName: user.lastName } });
+            res.json({ message: "Login successful!", user: { firstName: user.firstName, lastName: user.lastName, userId: user.id } });
         } else {
             // FAILURE: Passwords didn't match
             res.status(401).json({ error: "Invalid email or password" });
